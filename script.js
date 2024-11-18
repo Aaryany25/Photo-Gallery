@@ -11,14 +11,11 @@ const TotalImages = totalrows * ImagesPerRow;
 let isZoomed = false;
 const images = [];
 
-function getRandomHeight(min,max){
-        return Math.floor(Math.random()*(max-min+1)/2)+min;
 
-}
-let count = 0;
+
 // Generating Images
 for (let i = 0; i <= TotalImages; i++) {
-    console.log(`Inserting ${i} images`);
+    
     const img = document.createElement("div");
     img.className = "img";
     img.style.height = "100px"; // Set uniform size
@@ -34,26 +31,10 @@ for (let i = 0; i <= TotalImages; i++) {
     img.appendChild(ImgElement);
     gallery.appendChild(img);
     images.push(img);
-    count = count +1;
-    console.log(count);
+    
 }
 
-//Generating Images
-// for(let i = 0;i <= TotalImages;i++){
-//     console.log(`Inserting ${i} images`)
-// const img = document.createElement("div");
-// img.className = "img";
-// img.style.height = `${getRandomHeight(10,30)}px`;
-// // img.style.width = `${getRandomWidth(30,100)}px`;
-// const ImgElement = document.createElement("img");
-// const randomImageNumber = Math.floor(Math.random()*10)+1;
-// ImgElement.src = `./assets/img (${randomImageNumber}).jpg`;
-// console.log(ImgElement)
-// img.appendChild(ImgElement);
-// gallery.appendChild(img);
-// images.push(img);
-// // console.log("inserted")
-// }
+
 gsap.to(images,{
     scale:1,
     opacity:1,
@@ -66,4 +47,63 @@ gsap.to(images,{
     },
     ease:"power1.out"
 })
+
+ZoomOutBtn.addEventListener("click",()=>{
+    if(!isZoomed) return;
+    isZoomed = false
+    dragLayer.style.display="none"
+    const CurrentTransform =  window.getComputedStyle(gallery).transform
+    gsap.set(gallery,{clearProps: "transform"})
+
+    const tl = gsap.timeline({
+        defaults:{
+            duration:2.5,
+            ease:"power4.inOut"
+        }
+    })
+    tl.fromTo(gallery,{transform:CurrentTransform},{x:0,y:0}).to(
+        images,{scale:1,x:0,y:0},0
+    )
+
+    CurrentX  = 0
+    CurrentY = 0
+    targetX = 0
+    targetY = 0
+    isDragging = false
+
+    ZoomOutBtn.classList.add("active")
+    ZoomInBtn.classList.remove("active")
+})
+
+ZoomInBtn.addEventListener("click",()=>{
+    if(isZoomed) return;
+    isZoomed = true 
+    dragLayer.style.display="block";
+
+    images.forEach((img,index) =>{
+        // const rect = img.getBoundingClientReact();
+            const rect = img.getBoundingClientRect();
+        const centerX = window.innerWidth/2;
+        const centerY = window.innerHeight/2;
+        const distX = (rect.left + rect.width/2- centerX)/50;
+        const distY = (rect.top + rect.height/2- centerY)/50;
+
+        gsap.to(img,{
+            x: distX*100,
+            y: distY*100,
+            scale:3,
+            duration:2.5,
+            ease:"power4.inOut"
+        })
+
+    })
+    ZoomOutBtn.classList.remove("active");
+    ZoomInBtn.classList.add("active");
+
+})
+let isDragging = false;
+let CurrentX = 0;
+let CurrentY = 0;
+let targetX = 0;
+let targetY = 0;
 })
