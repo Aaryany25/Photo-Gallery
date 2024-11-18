@@ -1,0 +1,112 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    overflow: hidden;
+}
+.img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+}
+#logo{
+    position: fixed;
+    left:50%;
+    transform: translateX(-50%);
+    width: 20%;
+    margin:2rem auto;
+    padding: 8px 0;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    z-index: 2;
+}
+#logo p {
+    text-transform: uppercase;
+    font-family: "PP Nuee Montreal";
+    font-weight: 500;
+    font-size: 20px;
+    user-select: none;
+}
+
+.pads{
+    position: fixed;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
+    padding: 0 4px;
+    display: flex;
+    gap:0.5em;
+    background-color: rgba(255, 255, 255, 0.25);
+    border:1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    z-index: 2;
+}
+.pads button {
+    opacity: 1;
+    outline: none;
+    border: none;
+    background: none;
+    padding: 8px;
+    transition: 0.5s opacity ;
+    pointer-events: all;
+}
+.pads button i{
+    font-size: 30px;
+}
+.pads button.active{
+    opacity: 0.5;
+    pointer-events: none;
+}
+.container{
+    position: absolute;
+    /* top: 50%;
+    left: 50%; */
+    transform: translateX(-50%,-50%);
+    width: 150vw;
+    height: 150vh;
+overflow: visible;
+/* background-color: red; */
+}
+.gallary{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap:100px;
+    padding: 4px;
+    transform-origin: center center;
+    will-change: transform;
+    /* background-color: yellow; */
+}
+.img{
+    width: calc((100%-236px)/60);
+    /* width: 10px; */
+    transform: scale(0);
+    transition: center center;
+    will-change: transform ;
+    pointer-events: none;
+    opacity:1 ;
+}
+
+#drag-layer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display:none;
+    touch-action: none;
+    z-index: 1;;
+}
